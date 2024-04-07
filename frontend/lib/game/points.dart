@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Points extends StatelessWidget {
-  const Points({super.key});
+  final int points;
+  const Points({super.key, required this.points});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +13,10 @@ class Points extends StatelessWidget {
         color: Colors.blue, // Container color
       ),
       padding: const EdgeInsets.all(5), // Add padding for inner spacing
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Points',
             style: TextStyle(
               color: Colors.white, // Text color
@@ -25,7 +26,7 @@ class Points extends StatelessWidget {
           ),
           // SizedBox(height: 2), // Add spacing between texts
           Text(
-            '100', // Replace with your points variable
+            '$points', // Replace with your points variable
             style: TextStyle(
               color: Colors.white, // Text color
               fontSize: 40, // Text size

@@ -1,5 +1,5 @@
 class ButtonState {
-  final String character;
+  String character;
   bool isPressed = false;
   int correctState = -1;
 

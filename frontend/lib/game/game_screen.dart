@@ -8,8 +8,14 @@ import './button_state.dart';
 import './points.dart';
 import './timer.dart';
 
-
 import 'positioned_button.dart';
+
+String generateRandomCharacter() {
+  Random random = Random();
+  String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  int index = random.nextInt(characters.length);
+  return characters[index];
+}
 
 class GameScreen extends StatefulWidget {
   @override
@@ -21,37 +27,60 @@ class _GameScreenState extends State<GameScreen> {
   final List<ButtonState> buttonStateList = List<ButtonState>.generate(
     8,
     (index) => ButtonState(
-      character: String.fromCharCode('A'.codeUnitAt(0) + index),
+      character: generateRandomCharacter(),
       isPressed: false,
       correctState: -1,
     ),
   );
   var lapCounter = 1;
   double timerPct = 0.0;
-
-
   bool isChecking = false;
+  int textCorrectState = -1;
   Timer? _timer;
   String text = '';
-
   var dMSAJson = DictionaryMSAFlutter();
-  DictEntry _entry = DictEntry('', [], [], []);
-
   int lastPressedTime = 0;
+  int points = 0;
 
-  
-
-   Future<bool> lookupWord() async {
+  Future<bool> lookupWord() async {
     bool isValid = await dMSAJson.hasEntry(text.toLowerCase());
     return isValid;
-   }
+  }
 
+  void resetInput() {
+    setState(() {
+      if (textCorrectState == 1) {
+        points += text.length;
+      }
+      for (int i = 0; i < buttonStateList.length; i++) {
+        buttonStateList[i].correctState = -1;
+        buttonStateList[i].isPressed = false;
+      }
+      text = '';
+      isChecking = false;
 
-  void checkInputEvent(){
+      textCorrectState = -1;
+    });
+  }
+
+  void stateUpdate() async {
+    isChecking = true;
+    textCorrectState = (await lookupWord()) ? 1 : 0;
+    for (int i = 0; i < buttonStateList.length; i++) {
+      if (buttonStateList[i].isPressed) {
+        buttonStateList[i].correctState = (textCorrectState == 1) ? 1 : 0;
+      }
+    }
+  }
+
+  void checkInputEvent() {
     _timer?.cancel();
     _timer = Timer(const Duration(milliseconds: 625), () async {
-      bool check = await lookupWord();
-      print(check);
+      setState(() {
+        stateUpdate();
+      });
+      await Future.delayed(const Duration(milliseconds: 650));
+      resetInput();
     });
   }
 
@@ -67,6 +96,9 @@ class _GameScreenState extends State<GameScreen> {
 
   void incrementLap() {
     setState(() {
+      for (int i = 0; i < buttonStateList.length; i++) {
+        buttonStateList[i].character = generateRandomCharacter();
+      }
       lapCounter += 1;
     });
   }
@@ -118,7 +150,7 @@ class _GameScreenState extends State<GameScreen> {
                               fontWeight: FontWeight.bold))
                     ],
                   ),
-                  const Points(),
+                  Points(points: points),
                   LapTimer(
                     incrementLap: incrementLap,
                     getLapCounter: getLapCounter,
@@ -136,10 +168,14 @@ class _GameScreenState extends State<GameScreen> {
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
-                        color: Colors.orange,
+                        color: textCorrectState == -1
+                            ? (Colors.blue)
+                            : (textCorrectState == 1
+                                ? Colors.green
+                                : Colors.red),
                       ),
                     ),
                   ),
@@ -174,12 +210,11 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                       for (int i = 0; i < buttonStateList.length; i++)
                         PositionedButton(
-                          angle: (2 * pi * i) / buttonStateList.length,
-                          buttonState: buttonStateList[i],
-                          onSelected: selected,
-                          checkInputEvent:checkInputEvent,
-                          isChecking: isChecking
-                        ),
+                            angle: (2 * pi * i) / buttonStateList.length,
+                            buttonState: buttonStateList[i],
+                            onSelected: selected,
+                            checkInputEvent: checkInputEvent,
+                            isChecking: isChecking),
                     ],
                   ),
                 ),

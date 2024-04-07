@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:dictionaryx/dictentry.dart';
 import 'package:dictionaryx/dictionary_msa_json_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/game/countdown_screen.dart';
+import './inputs.dart';
 import './background.dart';
 import './button_state.dart';
 import './points.dart';
@@ -41,6 +43,7 @@ class _GameScreenState extends State<GameScreen> {
   var dMSAJson = DictionaryMSAFlutter();
   int lastPressedTime = 0;
   int points = 0;
+  Map<String, Input> inputList = {};
 
   Future<bool> lookupWord() async {
     bool isValid = await dMSAJson.hasEntry(text.toLowerCase());
@@ -58,14 +61,19 @@ class _GameScreenState extends State<GameScreen> {
       }
       text = '';
       isChecking = false;
-
       textCorrectState = -1;
     });
   }
 
   void stateUpdate() async {
     isChecking = true;
+    if (text.length <= 1 || inputList.containsKey(text)) {
+      resetInput();
+    }
     textCorrectState = (await lookupWord()) ? 1 : 0;
+    if (textCorrectState == 1) {
+      inputList[text] = Input(text: text, points: text.length);
+    }
     for (int i = 0; i < buttonStateList.length; i++) {
       if (buttonStateList[i].isPressed) {
         buttonStateList[i].correctState = (textCorrectState == 1) ? 1 : 0;
@@ -75,6 +83,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void checkInputEvent() {
     _timer?.cancel();
+
     _timer = Timer(const Duration(milliseconds: 625), () async {
       setState(() {
         stateUpdate();
@@ -100,6 +109,10 @@ class _GameScreenState extends State<GameScreen> {
         buttonStateList[i].character = generateRandomCharacter();
       }
       lapCounter += 1;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CountdownScreen()),
+      );
     });
   }
 
@@ -155,6 +168,7 @@ class _GameScreenState extends State<GameScreen> {
                     incrementLap: incrementLap,
                     getLapCounter: getLapCounter,
                     setTimerPct: setTimerPct,
+                    inputList: inputList,
                   ),
                 ],
               ),

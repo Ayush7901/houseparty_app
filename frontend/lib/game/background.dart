@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,7 @@ class TimerArcPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double strokeWidth = 35;
+    const double strokeWidth = 35;
     final double radius = (size.width - strokeWidth) / 2;
     final Offset center = Offset(size.width / 2, size.height / 2);
 
@@ -17,7 +16,7 @@ class TimerArcPainter extends CustomPainter {
       ..color = const Color.fromARGB(255, 92, 194, 242)
       ..style = PaintingStyle.fill; // Changed to fill to create a sector
 
-    final double startAngle = -pi / 2; // Start angle (top center)
+    const double startAngle = -pi / 2; // Start angle (top center)
     final double sweepAngle =
         2 * pi * timerPercentage; // Sweep angle based on timer percentage
 
@@ -28,7 +27,6 @@ class TimerArcPainter extends CustomPainter {
     path.arcTo(Rect.fromCircle(center: center, radius: radius), startAngle,
         sweepAngle, true); // Draw the arc
     path.close(); // Close the path to complete the sector
-
     canvas.drawPath(path, paint); // Draw the sector
   }
 

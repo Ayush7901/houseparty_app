@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:dictionaryx/dictentry.dart';
+import 'package:dictionaryx/dictionary_msa_json_flutter.dart';
 import 'package:flutter/material.dart';
 import './background.dart';
 import './button_state.dart';
 import './points.dart';
 import './timer.dart';
+
 
 import 'positioned_button.dart';
 
@@ -25,7 +29,31 @@ class _GameScreenState extends State<GameScreen> {
   var lapCounter = 1;
   double timerPct = 0.0;
 
+
+  bool isChecking = false;
+  Timer? _timer;
   String text = '';
+
+  var dMSAJson = DictionaryMSAFlutter();
+  DictEntry _entry = DictEntry('', [], [], []);
+
+  int lastPressedTime = 0;
+
+  
+
+   Future<bool> lookupWord() async {
+    bool isValid = await dMSAJson.hasEntry(text.toLowerCase());
+    return isValid;
+   }
+
+
+  void checkInputEvent(){
+    _timer?.cancel();
+    _timer = Timer(const Duration(milliseconds: 625), () async {
+      bool check = await lookupWord();
+      print(check);
+    });
+  }
 
   void selected(String val) {
     setState(() {
@@ -149,6 +177,8 @@ class _GameScreenState extends State<GameScreen> {
                           angle: (2 * pi * i) / buttonStateList.length,
                           buttonState: buttonStateList[i],
                           onSelected: selected,
+                          checkInputEvent:checkInputEvent,
+                          isChecking: isChecking
                         ),
                     ],
                   ),

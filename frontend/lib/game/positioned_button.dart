@@ -7,6 +7,8 @@ class PositionedButton extends StatefulWidget {
   final double angle;
   // final String text;
   final Function onSelected;
+  final Function checkInputEvent;
+  final bool isChecking;
   // final Function onUnSelected;
   final Color buttonColor;
   final Color textColor;
@@ -18,6 +20,8 @@ class PositionedButton extends StatefulWidget {
     required this.angle,
     // required this.text,
     required this.onSelected,
+    required this.checkInputEvent,
+    required this.isChecking,
     // required this.onUnSelected,
     this.buttonColor = Colors.white, // Default button color
     this.textColor = Colors.blue, // Default text color
@@ -53,6 +57,9 @@ class _PositionedButtonState extends State<PositionedButton> {
             });
 
             widget.onSelected(widget.buttonState.character);
+
+            widget.checkInputEvent();
+
           }
         },
         style: ElevatedButton.styleFrom(

@@ -27,7 +27,7 @@ class Points extends StatelessWidget {
           // SizedBox(height: 2), // Add spacing between texts
           Text(
             '$points', // Replace with your points variable
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white, // Text color
               fontSize: 40, // Text size
               fontWeight: FontWeight.bold, // Text weight

@@ -3,6 +3,10 @@ import 'dart:math';
 import 'package:dictionaryx/dictentry.dart';
 import 'package:dictionaryx/dictionary_msa_json_flutter.dart';
 import 'package:flutter/material.dart';
+import './background.dart';
+import './button_state.dart';
+import './points.dart';
+import './timer.dart';
 
 
 import 'positioned_button.dart';
@@ -13,7 +17,17 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final List<String> buttonLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  // final List<String> buttonLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  final List<ButtonState> buttonStateList = List<ButtonState>.generate(
+    8,
+    (index) => ButtonState(
+      character: String.fromCharCode('A'.codeUnitAt(0) + index),
+      isPressed: false,
+      correctState: -1,
+    ),
+  );
+  var lapCounter = 1;
+  double timerPct = 0.0;
 
 
   bool isChecking = false;
@@ -47,6 +61,24 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  int getLapCounter() {
+    return lapCounter;
+  }
+
+  void incrementLap() {
+    setState(() {
+      lapCounter += 1;
+    });
+  }
+
+  void setTimerPct(double timer) {
+    setState(() {
+      timerPct = (2 * pi * timer * 1.0) / 90.0;
+      // print(timerPct);
+      // lapCounter += 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,25 +100,47 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisSize: MainAxisSize.max,
             children: [
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Laps'),
-                  Text('Points'),
-                  Text('Timer'),
+                  Column(
+                    children: [
+                      const Text(
+                        'Laps',
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                      Text('$lapCounter/3',
+                          style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                  const Points(),
+                  LapTimer(
+                    incrementLap: incrementLap,
+                    getLapCounter: getLapCounter,
+                    setTimerPct: setTimerPct,
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
-              Card(
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    text,
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+              SizedBox(
+                width: 300,
+                child: Card(
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      text,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
                     ),
                   ),
                 ),
@@ -109,10 +163,19 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                         ),
                       ),
-                      for (int i = 0; i < buttonLabels.length; i++)
+                      // TimerArc(timerPct),
+                      Positioned(
+                        // Adjust position to center the arc
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: TimerArc(timerPct),
+                      ),
+                      for (int i = 0; i < buttonStateList.length; i++)
                         PositionedButton(
-                          angle: (2 * pi * i) / buttonLabels.length,
-                          text: buttonLabels[i],
+                          angle: (2 * pi * i) / buttonStateList.length,
+                          buttonState: buttonStateList[i],
                           onSelected: selected,
                           checkInputEvent:checkInputEvent,
                           isChecking: isChecking

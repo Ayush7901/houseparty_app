@@ -1,26 +1,29 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/game/button_state.dart';
 
 class PositionedButton extends StatefulWidget {
   final double angle;
-  final String text;
+  // final String text;
   final Function onSelected;
   // final Function onUnSelected;
   final Color buttonColor;
   final Color textColor;
   final double buttonRadius;
   final double fontSize;
+  final ButtonState buttonState;
 
   PositionedButton({
     required this.angle,
-    required this.text,
+    // required this.text,
     required this.onSelected,
     // required this.onUnSelected,
     this.buttonColor = Colors.white, // Default button color
     this.textColor = Colors.blue, // Default text color
     this.buttonRadius = 35, // Default button radius
     this.fontSize = 40, // Default font size
+    required this.buttonState
   });
 
   @override
@@ -33,8 +36,8 @@ class _PositionedButtonState extends State<PositionedButton> {
   @override
   Widget build(BuildContext context) {
     const double circleRadius = 120; // Radius of the circle
-    final double centerX = 190; // X coordinate of the circle center
-    final double centerY = 210; // Y coordinate of the circle center
+    final double centerX = 175; // X coordinate of the circle center
+    final double centerY = 180; // Y coordinate of the circle center
     final double buttonX =
         centerX + circleRadius * cos(widget.angle) - widget.buttonRadius;
     final double buttonY =
@@ -44,12 +47,12 @@ class _PositionedButtonState extends State<PositionedButton> {
       top: buttonY,
       child: ElevatedButton(
         onPressed: () {
-          if (!isPressed) {
+          if (!widget.buttonState.isPressed) {
             setState(() {
-              isPressed = true;
+              widget.buttonState.isPressed = true;
             });
 
-            widget.onSelected(widget.text);
+            widget.onSelected(widget.buttonState.character);
           }
         },
         style: ElevatedButton.styleFrom(
@@ -58,14 +61,14 @@ class _PositionedButtonState extends State<PositionedButton> {
           elevation: 3, // Button elevation
           minimumSize: Size(widget.buttonRadius * 2, widget.buttonRadius * 2),
           side: BorderSide(
-            color: isPressed ? Colors.orange : widget.textColor,
-            width: isPressed ? 10 : 2,
+            color: widget.buttonState.isPressed ? Colors.orange : widget.textColor,
+            width: widget.buttonState.isPressed ? 10 : 2,
           ),
         ),
         child: Text(
-          widget.text,
+          widget.buttonState.character,
           style: TextStyle(
-            color: isPressed ? Colors.orange : widget.textColor,
+            color: widget.buttonState.isPressed ? Colors.orange : widget.textColor,
             fontSize: widget.fontSize,
             fontWeight: FontWeight.bold,
           ),

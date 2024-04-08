@@ -12,11 +12,71 @@ import './timer.dart';
 
 import 'positioned_button.dart';
 
-String generateRandomCharacter() {
-  Random random = Random();
-  String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  int index = random.nextInt(characters.length);
-  return characters[index];
+// String generateRandomCharacter() {
+//   Random random = Random();
+//   String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+//   int index = random.nextInt(characters.length);
+//   return characters[index];
+// }
+
+// Function to generate a random vowel
+String generateRandomVowel() {
+  final vowels = ['A', 'E', 'I', 'O', 'U'];
+  return vowels[Random().nextInt(vowels.length)];
+}
+
+// Function to generate a random consonant
+String generateRandomConsonant() {
+  final consonants = [
+    'S',
+    'T',
+    'N',
+    'R',
+    'L',
+    'D',
+    'C',
+    'M',
+    'P',
+    'G',
+    'H',
+    'B',
+    'F',
+    'V',
+    'J',
+    'Q',
+    'X',
+    'Z',
+    'W',
+    'Y'
+  ];
+  return consonants[Random().nextInt(consonants.length)];
+}
+
+List<ButtonState> generateRandomList() {
+  List<String> letters = [];
+  // Generate 4 vowels
+  for (int i = 0; i < 4; i++) {
+    letters.add(generateRandomVowel());
+  }
+  // Generate 2 common consonants
+  for (int i = 0; i < 2; i++) {
+    letters.add(generateRandomConsonant());
+  }
+  // Generate 2 less common consonants
+  for (int i = 0; i < 2; i++) {
+    letters.add(generateRandomConsonant());
+  }
+  // Shuffle the letters to make the distribution random
+  letters.shuffle();
+  final List<ButtonState> buttonStateList = List<ButtonState>.generate(
+    8,
+    (index) => ButtonState(
+      character: letters[index],
+      isPressed: false,
+      correctState: -1,
+    ),
+  );
+  return buttonStateList;
 }
 
 class GameScreen extends StatefulWidget {
@@ -25,17 +85,9 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  // final List<String> buttonLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-  final List<ButtonState> buttonStateList = List<ButtonState>.generate(
-    8,
-    (index) => ButtonState(
-      character: generateRandomCharacter(),
-      isPressed: false,
-      correctState: -1,
-    ),
-  );
+  List<ButtonState> buttonStateList = generateRandomList();
   var lapCounter = 1;
-  double timerPct = 0.0;
+  double timerPct = 2 * pi;
   bool isChecking = false;
   int textCorrectState = -1;
   Timer? _timer;
@@ -46,8 +98,8 @@ class _GameScreenState extends State<GameScreen> {
   bool isCountdown = false;
   Map<String, Input> inputList = {};
 
-  void finishCountDown(){
-    setState((){
+  void finishCountDown() {
+    setState(() {
       isCountdown = false;
     });
   }
@@ -112,14 +164,17 @@ class _GameScreenState extends State<GameScreen> {
 
   void incrementLap() {
     setState(() {
-      for (int i = 0; i < buttonStateList.length; i++) {
-        buttonStateList[i].character = generateRandomCharacter();
-      }
+      // for (int i = 0; i < buttonStateList.length; i++) {
+      //   buttonStateList[i].character = generateRandomCharacter();
+      // }
+      buttonStateList = generateRandomList();
       lapCounter += 1;
       isCountdown = true;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => CountdownScreen(finishCountDown:finishCountDown)),
+        MaterialPageRoute(
+            builder: (context) =>
+                CountdownScreen(finishCountDown: finishCountDown)),
       );
     });
   }
@@ -177,7 +232,7 @@ class _GameScreenState extends State<GameScreen> {
                     getLapCounter: getLapCounter,
                     setTimerPct: setTimerPct,
                     inputList: inputList,
-                    isCountdown:isCountdown,
+                    isCountdown: isCountdown,
                   ),
                 ],
               ),

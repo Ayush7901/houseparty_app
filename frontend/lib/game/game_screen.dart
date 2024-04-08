@@ -43,7 +43,14 @@ class _GameScreenState extends State<GameScreen> {
   var dMSAJson = DictionaryMSAFlutter();
   int lastPressedTime = 0;
   int points = 0;
+  bool isCountdown = false;
   Map<String, Input> inputList = {};
+
+  void finishCountDown(){
+    setState((){
+      isCountdown = false;
+    });
+  }
 
   Future<bool> lookupWord() async {
     bool isValid = await dMSAJson.hasEntry(text.toLowerCase());
@@ -109,9 +116,10 @@ class _GameScreenState extends State<GameScreen> {
         buttonStateList[i].character = generateRandomCharacter();
       }
       lapCounter += 1;
+      isCountdown = true;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => CountdownScreen()),
+        MaterialPageRoute(builder: (context) => CountdownScreen(finishCountDown:finishCountDown)),
       );
     });
   }
@@ -169,6 +177,7 @@ class _GameScreenState extends State<GameScreen> {
                     getLapCounter: getLapCounter,
                     setTimerPct: setTimerPct,
                     inputList: inputList,
+                    isCountdown:isCountdown,
                   ),
                 ],
               ),

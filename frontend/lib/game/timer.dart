@@ -8,12 +8,14 @@ class LapTimer extends StatefulWidget {
   final Function getLapCounter;
   final Function setTimerPct;
   final Map<String, Input> inputList;
+  final bool isCountdown;
   const LapTimer(
       {super.key,
       required this.incrementLap,
       required this.getLapCounter,
       required this.setTimerPct,
-      required this.inputList});
+      required this.inputList,
+      required this.isCountdown});
 
   @override
   State<LapTimer> createState() => _LapTimerState();
@@ -21,16 +23,21 @@ class LapTimer extends StatefulWidget {
 
 class _LapTimerState extends State<LapTimer> {
   // final interval = const Duration(seconds: 1);
-  var timerMaxSeconds = 90;
+  var timerMaxSeconds = 20;
   int currentSeconds = 0;
   String get timerText =>
       ((timerMaxSeconds - currentSeconds)).toString().padLeft(2, '0');
 
   void startTimeout() {
     // var duration = Duration(milliseconds: milliseconds);
+    
     Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         // print(timer.tick);
+        // print(widget.isCountdown);
+        // if (widget.isCountdown) {
+        //   timer.cancel();
+        // }
         currentSeconds = timer.tick;
         widget.setTimerPct((timerMaxSeconds - currentSeconds) * 1.0);
         if (timer.tick >= timerMaxSeconds) {
@@ -44,7 +51,7 @@ class _LapTimerState extends State<LapTimer> {
             );
           } else {
             widget.incrementLap();
-            timerMaxSeconds += 90;
+            timerMaxSeconds += 20;
           }
         }
       });

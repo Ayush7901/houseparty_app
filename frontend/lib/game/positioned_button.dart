@@ -38,13 +38,23 @@ class _PositionedButtonState extends State<PositionedButton> {
 
   @override
   Widget build(BuildContext context) {
-    const double circleRadius = 120; // Radius of the circle
-    final double centerX = 175; // X coordinate of the circle center
-    final double centerY = 180; // Y coordinate of the circle center
-    final double buttonX =
-        centerX + circleRadius * cos(widget.angle) - widget.buttonRadius;
-    final double buttonY =
-        centerY + circleRadius * sin(widget.angle) - widget.buttonRadius;
+    // const double circleRadius = 120; // Radius of the circle
+    // final double centerX = 175; // X coordinate of the circle center
+    // final double centerY = 180; // Y coordinate of the circle center
+    const double circleRadius =
+        0.3; // Proportion of screen width for circle radius
+    final double buttonRadius =
+        0.09; // Proportion of screen width for button radius
+    final double centerX = MediaQuery.of(context).size.width /
+        2.3; // X coordinate of the circle center
+    final double centerY = MediaQuery.of(context).size.height / 3.6; // Y coordinate of the circle center
+    final double buttonX = centerX +
+        circleRadius * MediaQuery.of(context).size.width * cos(widget.angle) -
+        buttonRadius * MediaQuery.of(context).size.width;
+    final double buttonY = centerY +
+        circleRadius * MediaQuery.of(context).size.width * sin(widget.angle) -
+        buttonRadius * MediaQuery.of(context).size.width;
+
     return Positioned(
       left: buttonX,
       top: buttonY,
@@ -66,7 +76,7 @@ class _PositionedButtonState extends State<PositionedButton> {
           backgroundColor: widget.buttonColor,
           shape: const CircleBorder(), // Make button circular
           elevation: 3, // Button elevation
-          minimumSize: Size(widget.buttonRadius * 2, widget.buttonRadius * 2),
+          minimumSize: Size(buttonRadius * MediaQuery.of(context).size.width * 2, buttonRadius * MediaQuery.of(context).size.width * 2),
           side: BorderSide(
             color: widget.buttonState.correctState == -1
                 ? (widget.buttonState.isPressed
@@ -88,7 +98,7 @@ class _PositionedButtonState extends State<PositionedButton> {
                 : (widget.buttonState.correctState == 1
                     ? Colors.green
                     : Colors.red),
-            fontSize: widget.fontSize,
+            fontSize: buttonRadius * MediaQuery.of(context).size.width * 2 * 0.7, // Adjust font size as needed
             fontWeight: FontWeight.bold,
           ),
         ),

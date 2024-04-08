@@ -43,7 +43,11 @@ class PointsScreen extends StatelessWidget {
                           // final inputData = inputList[key];
                           return ListTile(
                             title: Text(word),
-                            trailing: Text('${inputList[key]?.pointsData}'),
+                            trailing: Text(
+                              '${inputList[word]?.pointsData}',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
                           );
                         },
                       ),

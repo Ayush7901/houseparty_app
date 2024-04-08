@@ -23,14 +23,15 @@ class LapTimer extends StatefulWidget {
 
 class _LapTimerState extends State<LapTimer> {
   // final interval = const Duration(seconds: 1);
-  var timerMaxSeconds = 20;
+  static const maxLapTime = 90;
+  var timerMaxSeconds = maxLapTime;
   int currentSeconds = 0;
   String get timerText =>
       ((timerMaxSeconds - currentSeconds)).toString().padLeft(2, '0');
 
   void startTimeout() {
     // var duration = Duration(milliseconds: milliseconds);
-    
+
     Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         // print(timer.tick);
@@ -39,7 +40,9 @@ class _LapTimerState extends State<LapTimer> {
         //   timer.cancel();
         // }
         currentSeconds = timer.tick;
-        widget.setTimerPct((timerMaxSeconds - currentSeconds) * 1.0);
+        if (currentSeconds <= timerMaxSeconds) {
+          widget.setTimerPct((timerMaxSeconds - currentSeconds) * 1.0);
+        }
         if (timer.tick >= timerMaxSeconds) {
           if (widget.getLapCounter() == 3) {
             timer.cancel();
@@ -51,7 +54,7 @@ class _LapTimerState extends State<LapTimer> {
             );
           } else {
             widget.incrementLap();
-            timerMaxSeconds += 20;
+            timerMaxSeconds += maxLapTime;
           }
         }
       });

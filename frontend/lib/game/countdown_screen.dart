@@ -2,6 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CountdownScreen extends StatefulWidget {
+  final Function finishCountDown;
+
+  const CountdownScreen({super.key, required this.finishCountDown});
+
+
+  
   @override
   _CountdownScreenState createState() => _CountdownScreenState();
 }
@@ -22,6 +28,7 @@ class _CountdownScreenState extends State<CountdownScreen> {
           count--;
         } else {
           timer.cancel();
+          // widget.finishCountDown();
           // Navigate to the next screen after the countdown finishes
           Navigator.pop(
             context,

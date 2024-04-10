@@ -24,7 +24,7 @@ class StartScreen extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue, // Button background color
+              backgroundColor: Colors.blue, // Button background color
               shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(10.0), // Button border radius

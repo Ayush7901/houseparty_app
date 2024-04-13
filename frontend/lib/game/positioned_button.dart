@@ -8,6 +8,7 @@ class PositionedButton extends StatefulWidget {
   // final String text;
   final Function onSelected;
   final Function checkInputEvent;
+  final Offset centerPoint;
   final bool isChecking;
   // final Function onUnSelected;
   final Color buttonColor;
@@ -16,18 +17,20 @@ class PositionedButton extends StatefulWidget {
   final double fontSize;
   final ButtonState buttonState;
 
-  PositionedButton(
-      {required this.angle,
-      // required this.text,
-      required this.onSelected,
-      required this.checkInputEvent,
-      required this.isChecking,
-      // required this.onUnSelected,
-      this.buttonColor = Colors.white, // Default button color
-      this.textColor = Colors.blue, // Default text color
-      this.buttonRadius = 35, // Default button radius
-      this.fontSize = 40, // Default font size
-      required this.buttonState});
+  PositionedButton({
+    required this.angle,
+    // required this.text,
+    required this.onSelected,
+    required this.checkInputEvent,
+    required this.isChecking,
+    // required this.onUnSelected,
+    this.buttonColor = Colors.white, // Default button color
+    this.textColor = Colors.blue, // Default text color
+    this.buttonRadius = 70, // Default button radius
+    this.fontSize = 40, // Default font size
+    required this.buttonState,
+    required this.centerPoint,
+  });
 
   @override
   _PositionedButtonState createState() => _PositionedButtonState();
@@ -38,24 +41,14 @@ class _PositionedButtonState extends State<PositionedButton> {
 
   @override
   Widget build(BuildContext context) {
-    // const double circleRadius = 120; // Radius of the circle
-    // final double centerX = 175; // X coordinate of the circle center
-    // final double centerY = 180; // Y coordinate of the circle center
-    const double circleRadius =
-        0.3; // Proportion of screen width for circle radius
-    final double buttonRadius =
-        0.09; // Proportion of screen width for button radius
-    final double centerX = MediaQuery.of(context).size.width /
-        2.3; // X coordinate of the circle center
-    final double centerY = MediaQuery.of(context).size.height / 3.6; // Y coordinate of the circle center
-    final double buttonX = centerX +
-        circleRadius * MediaQuery.of(context).size.width * cos(widget.angle) -
-        buttonRadius * MediaQuery.of(context).size.width;
-    final double buttonY = centerY +
-        circleRadius * MediaQuery.of(context).size.width * sin(widget.angle) -
-        buttonRadius * MediaQuery.of(context).size.width;
+    double circleRadius = min(widget.centerPoint.dx, widget.centerPoint.dy); // Proportion of screen width for circle radius
+    final double buttonRadius = widget.buttonRadius; // Proportion of screen width for button radius
+
+    final double buttonX = widget.centerPoint.dx + circleRadius * cos(widget.angle) * 0.75 - buttonRadius/2;
+    final double buttonY = widget.centerPoint.dy + circleRadius * sin(widget.angle) * 0.75 - buttonRadius/2;
 
     return Positioned(
+
       left: buttonX,
       top: buttonY,
       child: ElevatedButton(
@@ -76,7 +69,7 @@ class _PositionedButtonState extends State<PositionedButton> {
           backgroundColor: widget.buttonColor,
           shape: const CircleBorder(), // Make button circular
           elevation: 3, // Button elevation
-          minimumSize: Size(buttonRadius * MediaQuery.of(context).size.width * 2, buttonRadius * MediaQuery.of(context).size.width * 2),
+          minimumSize: Size(widget.buttonRadius, widget.buttonRadius),
           side: BorderSide(
             color: widget.buttonState.correctState == -1
                 ? (widget.buttonState.isPressed
@@ -98,7 +91,7 @@ class _PositionedButtonState extends State<PositionedButton> {
                 : (widget.buttonState.correctState == 1
                     ? Colors.green
                     : Colors.red),
-            fontSize: buttonRadius * MediaQuery.of(context).size.width * 2 * 0.7, // Adjust font size as needed
+            fontSize: widget.fontSize, // Adjust font size as needed
             fontWeight: FontWeight.bold,
           ),
         ),

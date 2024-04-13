@@ -89,6 +89,7 @@ class _GameScreenState extends State<GameScreen> {
   var lapCounter = 1;
   double timerPct = 2 * pi;
   bool isChecking = false;
+  bool isNewRoundStarting = false;
   int textCorrectState = -1;
   Timer? _timer;
   String text = '';
@@ -100,7 +101,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void finishCountDown() {
     setState(() {
-      isCountdown = false;
+      isNewRoundStarting = false;
     });
   }
 
@@ -121,6 +122,7 @@ class _GameScreenState extends State<GameScreen> {
       text = '';
       isChecking = false;
       textCorrectState = -1;
+      
     });
   }
 
@@ -169,13 +171,7 @@ class _GameScreenState extends State<GameScreen> {
       // }
       buttonStateList = generateRandomList();
       lapCounter += 1;
-      isCountdown = true;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                CountdownScreen(finishCountDown: finishCountDown)),
-      );
+      isNewRoundStarting = true;
     });
   }
 
@@ -189,6 +185,8 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sizeData = MediaQuery.of(context).size;
+    // print('GameScreen button Coordinates: ${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.width}');
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -197,110 +195,117 @@ class _GameScreenState extends State<GameScreen> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      const Text(
-                        'Laps',
-                        style: TextStyle(
-                          color: Colors.blue,
+      body: isNewRoundStarting
+          ? CountdownScreen(finishCountDown: finishCountDown)
+          : Center(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const Text(
+                              'Laps',
+                              style: TextStyle(
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Text('$lapCounter/3',
+                                style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold))
+                          ],
                         ),
-                      ),
-                      Text('$lapCounter/3',
-                          style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  Points(points: points),
-                  LapTimer(
-                    incrementLap: incrementLap,
-                    getLapCounter: getLapCounter,
-                    setTimerPct: setTimerPct,
-                    inputList: inputList,
-                    isCountdown: isCountdown,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: 300,
-                child: Card(
-                  elevation: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: textCorrectState == -1
-                            ? (Colors.blue)
-                            : (textCorrectState == 1
-                                ? Colors.green
-                                : Colors.red),
-                      ),
+                        Points(points: points),
+                        LapTimer(
+                          incrementLap: incrementLap,
+                          getLapCounter: getLapCounter,
+                          setTimerPct: setTimerPct,
+                          inputList: inputList,
+                          isCountdown: isCountdown,
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 15,
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 300,
+                      child: Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            text,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: textCorrectState == -1
+                                  ? (Colors.blue)
+                                  : (textCorrectState == 1
+                                      ? Colors.green
+                                      : Colors.red),
+                            ),
                           ),
                         ),
                       ),
-                      // TimerArc(timerPct),
-                      Positioned(
-                        // Adjust position to center the arc
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: TimerArc(timerPct),
+                    ),
+                    const SizedBox(height: 5),
+                    Container(
+                      height: sizeData.height * 0.47,
+                      width: sizeData.width * 0.9,
+                      margin: const EdgeInsets.all(2),
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Stack(
+                          // alignment: Alignment.center,
+                          children: [
+                            Container(
+                              // height: double.infinity,
+                              // width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 15,
+                                ),
+                              ),
+                            ),
+                            // TimerArc(timerPct),
+                            Positioned(
+                              top: 0,
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: TimerArc(timerPct),
+                            ),
+                            for (int i = 0; i < buttonStateList.length; i++)
+                              PositionedButton(
+                                angle: (2 * pi * i) / buttonStateList.length,
+                                buttonState: buttonStateList[i],
+                                onSelected: selected,
+                                checkInputEvent: checkInputEvent,
+                                isChecking: isChecking,
+                                centerPoint: Offset((sizeData.width * 0.9) / 2,
+                                    (sizeData.height * 0.47) / 2),
+                              ),
+                          ],
+                        ),
                       ),
-                      for (int i = 0; i < buttonStateList.length; i++)
-                        PositionedButton(
-                            angle: (2 * pi * i) / buttonStateList.length,
-                            buttonState: buttonStateList[i],
-                            onSelected: selected,
-                            checkInputEvent: checkInputEvent,
-                            isChecking: isChecking),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

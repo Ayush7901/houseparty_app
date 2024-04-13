@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './game_screen.dart';
 
 class StartScreen extends StatelessWidget {
   @override
@@ -18,9 +17,9 @@ class StartScreen extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Add your button onPressed logic here
-              Navigator.pushReplacement(
+              Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(builder: (context) => GameScreen()),
+                '/game-screen'
               );
             },
             style: ElevatedButton.styleFrom(

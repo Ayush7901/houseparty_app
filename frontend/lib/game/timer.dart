@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import './inputs.dart';
-import './points_screen.dart';
 
 class LapTimer extends StatefulWidget {
   final Function incrementLap;
@@ -46,12 +45,8 @@ class _LapTimerState extends State<LapTimer> {
         if (timer.tick >= timerMaxSeconds) {
           if (widget.getLapCounter() == 3) {
             timer.cancel();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      PointsScreen(inputList: widget.inputList)),
-            );
+            Navigator.pushReplacementNamed(context, '/points-screen',
+                arguments: {'inputList': widget.inputList});
           } else {
             widget.incrementLap();
             timerMaxSeconds += maxLapTime;

@@ -9,13 +9,15 @@ class TimerArcPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var center = size / 2;
+    var radius = min(size.width, size.height) - 30;
     var paint = Paint()..color = const Color.fromARGB(255, 92, 194, 242);
+    // print('TimerBG button Coordinates: ${size.width} ${size.height}');
     // print((1.0 - timerPercentage));
     canvas.drawArc(
       Rect.fromCenter(
         center: Offset(center.width, center.height),
-        width: 320,
-        height: 320,
+        width: radius,
+        height: radius,
       ),
       -pi / 2,
       2 * pi - timerPercentage,
@@ -23,29 +25,6 @@ class TimerArcPainter extends CustomPainter {
       paint,
     );
   }
-
-  // void paint(Canvas canvas, Size size) {
-  //   const double strokeWidth = 35;
-  //   final double radius = (size.width - strokeWidth) / 2;
-  //   final Offset center = Offset(size.width / 2, size.height / 2);
-
-  //   final Paint paint = Paint()
-  //     ..color = const Color.fromARGB(255, 92, 194, 242)
-  //     ..style = PaintingStyle.fill; // Changed to fill to create a sector
-
-  //   const double startAngle = -pi / 2; // Start angle (top center)
-  //   final double sweepAngle =
-  //       2 * pi * timerPercentage; // Sweep angle based on timer percentage
-
-  //   final Path path = Path();
-  //   path.moveTo(center.dx, center.dy); // Move to the center
-  //   path.lineTo(center.dx + radius * cos(startAngle),
-  //       center.dy + radius * sin(startAngle)); // Move to the start point
-  //   path.arcTo(Rect.fromCircle(center: center, radius: radius), startAngle,
-  //       sweepAngle, true); // Draw the arc
-  //   path.close(); // Close the path to complete the sector
-  //   canvas.drawPath(path, paint); // Draw the sector
-  // }
 
   @override
   bool shouldRepaint(TimerArcPainter oldDelegate) {
@@ -64,6 +43,7 @@ class TimerArc extends StatefulWidget {
 
 class _TimerArcState extends State<TimerArc> {
   @override
+  
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: TimerArcPainter(widget.timerPercentage),

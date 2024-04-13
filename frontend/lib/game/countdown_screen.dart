@@ -6,8 +6,6 @@ class CountdownScreen extends StatefulWidget {
 
   const CountdownScreen({super.key, required this.finishCountDown});
 
-
-  
   @override
   _CountdownScreenState createState() => _CountdownScreenState();
 }
@@ -23,60 +21,46 @@ class _CountdownScreenState extends State<CountdownScreen> {
 
   void startCountdown() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (count > 0) {
+      if(count > 0)
+      {
+        setState(() {
           count--;
-        } else {
-          timer.cancel();
-          // widget.finishCountDown();
-          // Navigate to the next screen after the countdown finishes
-          Navigator.pop(
-            context,
-            // MaterialPageRoute(builder: (context) => GameScreen()),
-          );
-        }
-      });
+        });
+      }
+      else{
+        timer.cancel();
+        widget.finishCountDown();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Game Screen',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
-      ),
-      body: Center(
-        
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Get ready for the next lap in',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  
-                ),
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Get ready for the next lap in',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                count.toString(),
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          ),
+            ),
+            Text(
+              count.toString(),
+              style: const TextStyle(
+                color: Colors.blue,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import './inputs.dart';
-import './start_screen.dart';
 
 class PointsScreen extends StatelessWidget {
   final Map<String, Input> inputList;
+
+  // Constructor to receive the inputList
   PointsScreen({required this.inputList});
+
   @override
   Widget build(BuildContext context) {
+    // Extract arguments within the build method
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Map<String, Input> inputList =
+        args['inputList'] as Map<String, Input>;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -33,19 +41,17 @@ class PointsScreen extends StatelessWidget {
                           fontSize: 24.0, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16.0),
-                    Container(
+                    SizedBox(
                       height: 200.0, // Adjust the height as needed
                       child: ListView.builder(
-                        itemCount: inputList
-                            .length, // Replace with your actual item count
+                        itemCount: inputList.length,
                         itemBuilder: (context, index) {
                           final word = inputList.keys.elementAt(index);
-                          // final inputData = inputList[key];
                           return ListTile(
                             title: Text(word),
                             trailing: Text(
                               '${inputList[word]?.pointsData}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                           );
@@ -59,11 +65,7 @@ class PointsScreen extends StatelessWidget {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Add your button onPressed logic here
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => StartScreen()),
-                );
+                Navigator.pushReplacementNamed(context, '/');
               },
               child: const Text('Replay'),
             ),

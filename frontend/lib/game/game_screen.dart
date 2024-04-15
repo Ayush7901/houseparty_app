@@ -122,6 +122,7 @@ class _GameScreenState extends State<GameScreen> {
       text = '';
       isChecking = false;
       textCorrectState = -1;
+      
     });
   }
 
@@ -190,6 +191,8 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sizeData = MediaQuery.of(context).size;
+    // print('GameScreen button Coordinates: ${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.width}');
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -211,7 +214,7 @@ class _GameScreenState extends State<GameScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(height: 10),
                     Row(
@@ -265,16 +268,19 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Expanded(
+                    const SizedBox(height: 5),
+                    Container(
+                      height: sizeData.height * 0.47,
+                      width: sizeData.width * 0.9,
+                      margin: const EdgeInsets.all(2),
                       child: AspectRatio(
                         aspectRatio: 1.0,
                         child: Stack(
-                          alignment: Alignment.center,
+                          // alignment: Alignment.center,
                           children: [
                             Container(
-                              height: double.infinity,
-                              width: double.infinity,
+                              // height: double.infinity,
+                              // width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.blue,
                                 shape: BoxShape.circle,
@@ -285,7 +291,6 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                             // TimerArc(timerPct),
                             Positioned(
-                              // Adjust position to center the arc
                               top: 0,
                               bottom: 0,
                               left: 0,
@@ -294,11 +299,14 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                             for (int i = 0; i < buttonStateList.length; i++)
                               PositionedButton(
-                                  angle: (2 * pi * i) / buttonStateList.length,
-                                  buttonState: buttonStateList[i],
-                                  onSelected: selected,
-                                  checkInputEvent: checkInputEvent,
-                                  isChecking: isChecking),
+                                angle: (2 * pi * i) / buttonStateList.length,
+                                buttonState: buttonStateList[i],
+                                onSelected: selected,
+                                checkInputEvent: checkInputEvent,
+                                isChecking: isChecking,
+                                centerPoint: Offset((sizeData.width * 0.9) / 2,
+                                    (sizeData.height * 0.47) / 2),
+                              ),
                           ],
                         ),
                       ),

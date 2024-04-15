@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/game/game_screen.dart';
+import 'package:frontend/game/points_screen.dart';
 import './game/start_screen.dart';
 
 void main() {
@@ -12,13 +14,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: StartScreen(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        routes: {
+          '/': (context) => StartScreen(), // Define the default route
+          '/game-screen': (context) =>
+              GameScreen(), // Define a named route for the game screen
+          '/points-screen': (context) => PointsScreen(
+              inputList: const {}), // Define a named route for the settings screen
+          // Add more named routes as needed
+        });
   }
 }

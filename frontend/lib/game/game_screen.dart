@@ -85,6 +85,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  
   List<ButtonState> buttonStateList = generateRandomList();
   var lapCounter = 1;
   double timerPct = 2 * pi;
@@ -170,12 +171,12 @@ class _GameScreenState extends State<GameScreen> {
       buttonStateList = generateRandomList();
       lapCounter += 1;
       isCountdown = true;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                CountdownScreen(finishCountDown: finishCountDown)),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) =>
+      //           CountdownScreen(finishCountDown: finishCountDown)),
+      // );
     });
   }
 
@@ -197,110 +198,115 @@ class _GameScreenState extends State<GameScreen> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      const Text(
-                        'Laps',
-                        style: TextStyle(
-                          color: Colors.blue,
+      body: 
+      isCountdown
+          ? Countdown(
+              finishCountDown: finishCountDown,
+            )
+          : Center(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const Text(
+                              'Laps',
+                              style: TextStyle(
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Text('$lapCounter/3',
+                                style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold))
+                          ],
                         ),
-                      ),
-                      Text('$lapCounter/3',
-                          style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  Points(points: points),
-                  LapTimer(
-                    incrementLap: incrementLap,
-                    getLapCounter: getLapCounter,
-                    setTimerPct: setTimerPct,
-                    inputList: inputList,
-                    isCountdown: isCountdown,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: 300,
-                child: Card(
-                  elevation: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: textCorrectState == -1
-                            ? (Colors.blue)
-                            : (textCorrectState == 1
-                                ? Colors.green
-                                : Colors.red),
-                      ),
+                        Points(points: points),
+                        LapTimer(
+                          incrementLap: incrementLap,
+                          getLapCounter: getLapCounter,
+                          setTimerPct: setTimerPct,
+                          inputList: inputList,
+                          isCountdown: isCountdown,
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 15,
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 300,
+                      child: Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            text,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: textCorrectState == -1
+                                  ? (Colors.blue)
+                                  : (textCorrectState == 1
+                                      ? Colors.green
+                                      : Colors.red),
+                            ),
                           ),
                         ),
                       ),
-                      // TimerArc(timerPct),
-                      Positioned(
-                        // Adjust position to center the arc
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: TimerArc(timerPct),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 15,
+                                ),
+                              ),
+                            ),
+                            // TimerArc(timerPct),
+                            Positioned(
+                              // Adjust position to center the arc
+                              top: 0,
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: TimerArc(timerPct),
+                            ),
+                            for (int i = 0; i < buttonStateList.length; i++)
+                              PositionedButton(
+                                  angle: (2 * pi * i) / buttonStateList.length,
+                                  buttonState: buttonStateList[i],
+                                  onSelected: selected,
+                                  checkInputEvent: checkInputEvent,
+                                  isChecking: isChecking),
+                          ],
+                        ),
                       ),
-                      for (int i = 0; i < buttonStateList.length; i++)
-                        PositionedButton(
-                            angle: (2 * pi * i) / buttonStateList.length,
-                            buttonState: buttonStateList[i],
-                            onSelected: selected,
-                            checkInputEvent: checkInputEvent,
-                            isChecking: isChecking),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

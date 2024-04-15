@@ -43,7 +43,7 @@ class _PositionedButtonState extends State<PositionedButton> {
     // final double centerY = 180; // Y coordinate of the circle center
     const double circleRadius =
         0.3; // Proportion of screen width for circle radius
-    final double buttonRadius =
+    const double buttonRadius =
         0.09; // Proportion of screen width for button radius
     final double centerX = MediaQuery.of(context).size.width /
         2.3; // X coordinate of the circle center

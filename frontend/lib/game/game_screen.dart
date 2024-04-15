@@ -85,11 +85,11 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  
   List<ButtonState> buttonStateList = generateRandomList();
   var lapCounter = 1;
   double timerPct = 2 * pi;
   bool isChecking = false;
-  bool isNewRoundStarting = false;
   int textCorrectState = -1;
   Timer? _timer;
   String text = '';
@@ -101,7 +101,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void finishCountDown() {
     setState(() {
-      isNewRoundStarting = false;
+      isCountdown = false;
     });
   }
 
@@ -171,7 +171,13 @@ class _GameScreenState extends State<GameScreen> {
       // }
       buttonStateList = generateRandomList();
       lapCounter += 1;
-      isNewRoundStarting = true;
+      isCountdown = true;
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) =>
+      //           CountdownScreen(finishCountDown: finishCountDown)),
+      // );
     });
   }
 
@@ -195,8 +201,11 @@ class _GameScreenState extends State<GameScreen> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: isNewRoundStarting
-          ? CountdownScreen(finishCountDown: finishCountDown)
+      body: 
+      isCountdown
+          ? Countdown(
+              finishCountDown: finishCountDown,
+            )
           : Center(
               child: Container(
                 width: double.infinity,

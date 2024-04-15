@@ -22,7 +22,7 @@ class LapTimer extends StatefulWidget {
 
 class _LapTimerState extends State<LapTimer> {
   // final interval = const Duration(seconds: 1);
-  static const maxLapTime = 90;
+  static const maxLapTime = 60;
   var timerMaxSeconds = maxLapTime;
   int currentSeconds = 0;
   String get timerText =>

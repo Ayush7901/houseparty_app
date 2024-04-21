@@ -8,3 +8,5 @@ class ButtonState {
       required this.isPressed,
       required this.correctState});
 }
+
+const maxLapTime = 90;

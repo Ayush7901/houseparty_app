@@ -22,6 +22,7 @@ class Points extends StatelessWidget {
               color: Colors.white, // Text color
               fontSize: 18, // Text size
               fontWeight: FontWeight.bold, // Text weight
+              fontFamily: 'OpenSans',
             ),
           ),
           // SizedBox(height: 2), // Add spacing between texts
@@ -31,6 +32,7 @@ class Points extends StatelessWidget {
               color: Colors.white, // Text color
               fontSize: 40, // Text size
               fontWeight: FontWeight.bold, // Text weight
+              fontFamily: 'BlackHanSans',
             ),
           ),
         ],

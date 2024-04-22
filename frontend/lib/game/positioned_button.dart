@@ -44,7 +44,7 @@ class _PositionedButtonState extends State<PositionedButton> {
     double circleRadius = min(widget.centerPoint.dx, widget.centerPoint.dy); // Proportion of screen width for circle radius
     final double buttonRadius = widget.buttonRadius; // Proportion of screen width for button radius
 
-    final double buttonX = widget.centerPoint.dx + circleRadius * cos(widget.angle) * 0.75 - buttonRadius/2;
+    final double buttonX = widget.centerPoint.dx + circleRadius * cos(widget.angle) * 0.75 - buttonRadius/2 - 5;
     final double buttonY = widget.centerPoint.dy + circleRadius * sin(widget.angle) * 0.75 - buttonRadius/2;
 
     return Positioned(
@@ -92,7 +92,8 @@ class _PositionedButtonState extends State<PositionedButton> {
                     ? Colors.green
                     : Colors.red),
             fontSize: widget.fontSize, // Adjust font size as needed
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w200,
+            fontFamily: 'BlackHanSans',
           ),
         ),
       ),

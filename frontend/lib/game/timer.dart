@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import './inputs.dart';
+import './button_state.dart';
 
 class LapTimer extends StatefulWidget {
   final Function incrementLap;
@@ -21,8 +22,6 @@ class LapTimer extends StatefulWidget {
 }
 
 class _LapTimerState extends State<LapTimer> {
-  // final interval = const Duration(seconds: 1);
-  static const maxLapTime = 60;
   var timerMaxSeconds = maxLapTime;
   int currentSeconds = 0;
   String get timerText =>
@@ -83,6 +82,7 @@ class _LapTimerState extends State<LapTimer> {
                 style: const TextStyle(
                     color: Colors.blue,
                     fontSize: 30,
+                    fontFamily: 'BlackHanSans',
                     fontWeight: FontWeight.bold))
           ],
         )

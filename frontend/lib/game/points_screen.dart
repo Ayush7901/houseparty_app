@@ -19,7 +19,7 @@ class PointsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Game Screen',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
         backgroundColor: Colors.blue,
       ),
@@ -33,27 +33,74 @@ class PointsScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Score List',
-                      style: TextStyle(
-                          fontSize: 24.0, fontWeight: FontWeight.bold),
+                    Container(
+                      width: 300,
+                      height: 75,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(200), // Rounded edges
+                        color: Colors.blue, // Container color
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Top Words',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'BlackHanSans',
+                              color: Colors.white),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 16.0),
                     SizedBox(
-                      height: 200.0, // Adjust the height as needed
+                      height: 300.0, // Adjust the height as needed
                       child: ListView.builder(
                         itemCount: inputList.length,
                         itemBuilder: (context, index) {
                           final word = inputList.keys.elementAt(index);
-                          return ListTile(
-                            title: Text(word),
-                            trailing: Text(
-                              '${inputList[word]?.pointsData}',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text(word,
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'OpenSans',
+                                    )),
+                                trailing: Container(
+                                  width: 45,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        200), // Rounded edges
+                                    color: Colors.green, // Container color
+                                  ),
+                                  // padding: const EdgeInsets.all(5), // Add padding for inner spacing
+                                  child: Center(
+                                    child: Text(
+                                      '${inputList[word]?.pointsData}',
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          fontFamily: 'BlackHanSans'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Divider(
+                                height: 1,
+                                thickness: 2,
+                                color: Colors.grey,
+                                indent: 16,
+                                endIndent: 16,
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -67,7 +114,27 @@ class PointsScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/');
               },
-              child: const Text('Replay'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Button background color
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(10.0), // Button border radius
+                ),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 40.0), // Button padding
+                elevation: 5.0, // Button elevation
+                textStyle: const TextStyle(
+                  fontSize: 24.0, // Button text size
+                ),
+              ),
+              child: const Text(
+                'Replay',
+                style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w200,
+                    fontFamily: 'BlackHanSans',
+                    color: Colors.white),
+              ),
             ),
           ],
         ),

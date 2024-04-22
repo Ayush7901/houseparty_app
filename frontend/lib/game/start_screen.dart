@@ -7,7 +7,10 @@ class StartScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Game Screen',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'OpenSans',
+          ),
         ),
         backgroundColor: Colors.blue,
       ),
@@ -17,10 +20,7 @@ class StartScreen extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Add your button onPressed logic here
-              Navigator.pushReplacementNamed(
-                context,
-                '/game-screen'
-              );
+              Navigator.pushReplacementNamed(context, '/game-screen');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue, // Button background color
@@ -37,9 +37,7 @@ class StartScreen extends StatelessWidget {
             ),
             child: const Text(
               'Start Game',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: TextStyle(color: Colors.white, fontFamily: 'BlackHanSans'),
             ), // Button text
           ),
         ),

@@ -183,7 +183,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void setTimerPct(double timer) {
     setState(() {
-      timerPct = (2 * pi * timer * 1.0) / 90.0;
+      timerPct = (2 * pi * timer * 1.0) / maxLapTime;
       // print(timerPct);
       // lapCounter += 1;
     });
@@ -197,7 +197,7 @@ class _GameScreenState extends State<GameScreen> {
       appBar: AppBar(
         title: const Text(
           'Game Screen',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
         backgroundColor: Colors.blue,
       ),
@@ -225,6 +225,7 @@ class _GameScreenState extends State<GameScreen> {
                             const Text(
                               'Laps',
                               style: TextStyle(
+                                fontFamily: 'OpenSans',
                                 color: Colors.blue,
                               ),
                             ),
@@ -232,7 +233,8 @@ class _GameScreenState extends State<GameScreen> {
                                 style: const TextStyle(
                                     color: Colors.blue,
                                     fontSize: 30,
-                                    fontWeight: FontWeight.bold))
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'BlackHanSans',))
                           ],
                         ),
                         Points(points: points),
@@ -258,6 +260,7 @@ class _GameScreenState extends State<GameScreen> {
                             style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
+                              fontFamily: 'BlackHanSans',
                               color: textCorrectState == -1
                                   ? (Colors.blue)
                                   : (textCorrectState == 1

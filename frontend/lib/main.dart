@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/auth/signup.dart';
+import 'package:frontend/firebase_options.dart';
 import 'package:frontend/game/game_screen.dart';
 import 'package:frontend/game/points_screen.dart';
 import './game/start_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +25,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routes: {
-          '/': (context) => StartScreen(), // Define the default route
+          '/' : (context) => SignUpPage(),
+          '/start-screen': (context) => StartScreen(), // Define the default route
           '/game-screen': (context) =>
               GameScreen(), // Define a named route for the game screen
           '/points-screen': (context) => PointsScreen(

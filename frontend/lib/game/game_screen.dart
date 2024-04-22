@@ -209,14 +209,14 @@ class _GameScreenState extends State<GameScreen> {
           : Center(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: const EdgeInsets.all(2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 2),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -273,7 +273,7 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      height: sizeData.height * 0.47,
+                      height: sizeData.height * 0.54,
                       width: sizeData.width * 0.9,
                       margin: const EdgeInsets.all(2),
                       child: AspectRatio(
@@ -308,7 +308,7 @@ class _GameScreenState extends State<GameScreen> {
                                 checkInputEvent: checkInputEvent,
                                 isChecking: isChecking,
                                 centerPoint: Offset((sizeData.width * 0.9) / 2,
-                                    (sizeData.height * 0.47) / 2),
+                                    (sizeData.height * 0.54) / 2),
                               ),
                           ],
                         ),

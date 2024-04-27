@@ -9,4 +9,4 @@ class ButtonState {
       required this.correctState});
 }
 
-const maxLapTime = 90;
+const maxLapTime = 75;

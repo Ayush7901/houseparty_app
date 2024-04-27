@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/auth/firebase_auth.dart';
-import 'package:frontend/auth/form_container.dart';
-import 'package:frontend/auth/login.dart';
+import './firebase_auth.dart';
+import './form_container.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -19,6 +18,17 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool isSigningUp = false;
+
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 3), // Optional duration
+      backgroundColor: const Color.fromARGB(255, 205, 84, 75),
+      elevation: 2,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   void dispose() {
@@ -107,11 +117,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   GestureDetector(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                            (route) => false);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/login-screen',
+                        );
                       },
                       child: const Text(
                         "Login",
@@ -132,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isSigningUp = true;
     });
 
-    String username = _usernameController.text;
+    // String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
@@ -142,10 +151,10 @@ class _SignUpPageState extends State<SignUpPage> {
       isSigningUp = false;
     });
     if (user != null) {
-      print('message: User is successfully created');
-      Navigator.pushNamed(context, "/start-screen");
+      // print('message: User is successfully created');
+      Navigator.pushReplacementNamed(context, "/start-screen");
     } else {
-      print('message: Some error happend');
+      showSnackBar('Error: Some error occured couldn\'t sign in!');
     }
   }
 }

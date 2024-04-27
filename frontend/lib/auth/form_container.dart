@@ -34,7 +34,7 @@ class _FormContainerWidgetState extends State<FormContainerWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 400,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(.35),

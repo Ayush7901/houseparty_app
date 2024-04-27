@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
@@ -13,6 +14,17 @@ class StartScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+          )
+        ],
       ),
       body: Center(
         child: Padding(

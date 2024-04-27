@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/auth/firebase_auth.dart';
-import 'package:frontend/auth/form_container.dart';
-import 'package:frontend/auth/signup.dart';
+import './firebase_auth.dart';
+import './form_container.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,6 +21,17 @@ class _LoginPageState extends State<LoginPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 3), // Optional duration
+      backgroundColor: const Color.fromARGB(255, 205, 84, 75),
+      elevation: 2,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -100,10 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushReplacementNamed(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
-                        (route) => false,
+                        '/signup-screen',
                       );
                     },
                     child: const Text(
@@ -138,10 +147,12 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (user != null) {
-      print('message: User is successfully signed in');
-      Navigator.pushNamed(context, "/start-screen");
+      // print('message: User is successfully signed in');
+      // Navigator.pushNamed(context, "/start-screen");
+      Navigator.pushReplacementNamed(context, "/start-screen");
     } else {
-      print('message: "some error occured');
+      showSnackBar(
+          'Error: Some error occured while loggin in! Please check username and password.');
     }
   }
 }

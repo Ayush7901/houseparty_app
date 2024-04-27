@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/auth/login.dart';
 
 import 'package:frontend/auth/signup.dart';
 import 'package:frontend/firebase_options.dart';
 
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:frontend/game/game_screen.dart';
 import 'package:frontend/game/points_screen.dart';
@@ -18,7 +19,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -31,13 +31,20 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeManager.lightTheme,
         routes: {
-          '/' : (context) => SignUpPage(),
-          '/start-screen': (context) => StartScreen(), // Define the default route
-          '/game-screen': (context) =>
-              GameScreen(), // Define a named route for the game screen
-          '/points-screen': (context) => PointsScreen(
-              inputList: const {}), // Define a named route for the settings screen
-          // Add more named routes as needed
+          '/': (context) => StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return StartScreen();
+                  }
+                  return const SignUpPage();
+                },
+              ),
+          '/start-screen': (context) => StartScreen(),
+          '/game-screen': (context) => GameScreen(),
+          '/points-screen': (context) => PointsScreen(inputList: const {}),
+          '/login-screen': (context) => const LoginPage(),
+          '/signup-screen': (context) => const SignUpPage(),
         });
   }
 }

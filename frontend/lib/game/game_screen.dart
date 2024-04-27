@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:dictionaryx/dictentry.dart';
+// import 'package:dictionaryx/dictentry.dart';
 import 'package:dictionaryx/dictionary_msa_json_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/game/countdown_screen.dart';
+import './countdown_screen.dart';
 import './inputs.dart';
 import './background.dart';
 import './button_state.dart';

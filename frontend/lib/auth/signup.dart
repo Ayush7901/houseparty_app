@@ -152,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
     if (user != null) {
       // print('message: User is successfully created');
-      Navigator.pushReplacementNamed(context, "/start-screen");
+      Navigator.pushReplacementNamed(context, "/join-call-screen");
     } else {
       showSnackBar('Error: Some error occured couldn\'t sign in!');
     }

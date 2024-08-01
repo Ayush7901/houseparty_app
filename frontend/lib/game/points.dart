@@ -7,10 +7,17 @@ class Points extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
+      width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(200), // Rounded edges
-        color: Colors.blue, // Container color
+        gradient: LinearGradient(
+          colors: [
+            Colors.blue,
+            Colors.purple
+          ], // Define your gradient colors here
+          begin: Alignment.topLeft, // Start position of the gradient
+          end: Alignment.bottomRight, // End position of the gradient
+        ),
       ),
       padding: const EdgeInsets.all(5), // Add padding for inner spacing
       child: Column(

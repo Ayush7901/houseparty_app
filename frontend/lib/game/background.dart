@@ -10,7 +10,23 @@ class TimerArcPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var center = size / 2;
     var radius = min(size.width, size.height) - 30;
-    var paint = Paint()..color = const Color.fromARGB(255, 92, 194, 242);
+    // var gradient = SweepGradient(
+    //    colors: [Colors.white],
+    //   startAngle: 0.0,
+    //   endAngle: 2 * pi,
+    // );
+    // var paint = Paint()
+    //   ..shader = gradient.createShader(
+    //     Rect.fromCenter(
+    //       center: Offset(center.width, center.height),
+    //       width: radius * 2,
+    //       height: radius * 2,
+    //     ),
+    //   )
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 10.0;
+    var paint = Paint()..color = Color.fromARGB(146, 5, 245, 233);
+    // var paint = Paint()..color = Color.fromARGB(255, 150, 86, 213);
     // print('TimerBG button Coordinates: ${size.width} ${size.height}');
     // print((1.0 - timerPercentage));
     canvas.drawArc(

@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/state/playerProvider.dart';
+import 'package:provider/provider.dart';
 import './firebase_auth.dart';
 import './form_container.dart';
 
@@ -149,7 +151,9 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       // print('message: User is successfully signed in');
       // Navigator.pushNamed(context, "/start-screen");
-      Navigator.pushReplacementNamed(context, "/start-screen");
+
+      // Provider.of<PlayerProvider>(context, listen: false).setEmail(email);
+      Navigator.pushReplacementNamed(context, "/create-meet");
     } else {
       showSnackBar(
           'Error: Some error occured while loggin in! Please check username and password.');

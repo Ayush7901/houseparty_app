@@ -106,7 +106,12 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<bool> lookupWord() async {
-    bool isValid = await dMSAJson.hasEntry(text.toLowerCase());
+    bool isValid = false;
+    try {
+      isValid = await dMSAJson.hasEntry(text.toLowerCase());
+    } catch (e) {
+      print('Error looking up word: $e');
+    }
     return isValid;
   }
 

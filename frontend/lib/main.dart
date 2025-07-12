@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:frontend/game/game_screen.dart';
 import 'package:frontend/game/points_screen.dart';
+import 'package:frontend/meet/join_screen.dart';
 import 'package:frontend/theme/theme_data.dart';
 import './game/start_screen.dart';
 
@@ -40,11 +41,14 @@ class MyApp extends StatelessWidget {
                   return const SignUpPage();
                 },
               ),
+          // '/': (context) => const JoinScreen(selfCallerId: 'selfCallerId'),
           '/start-screen': (context) => StartScreen(),
           '/game-screen': (context) => GameScreen(),
           '/points-screen': (context) => PointsScreen(inputList: const {}),
           '/login-screen': (context) => const LoginPage(),
           '/signup-screen': (context) => const SignUpPage(),
+          '/join-screen': (context) =>
+              const JoinScreen(selfCallerId: 'selfCallerId')
         });
   }
 }

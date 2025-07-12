@@ -12,9 +12,10 @@ class Countdown extends StatefulWidget {
 
 class CountdownState extends State<Countdown> {
   int seconds = 3;
+  Timer? _timer;
 
   void startCountdown() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (seconds > 0) {
           seconds--;
@@ -29,6 +30,12 @@ class CountdownState extends State<Countdown> {
   void initState() {
     startCountdown();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
   }
 
   @override

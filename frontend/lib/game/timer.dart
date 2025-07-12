@@ -22,6 +22,7 @@ class LapTimer extends StatefulWidget {
 }
 
 class _LapTimerState extends State<LapTimer> {
+  Timer? timer;
   var timerMaxSeconds = maxLapTime;
   int currentSeconds = 0;
   String get timerText =>
@@ -30,7 +31,7 @@ class _LapTimerState extends State<LapTimer> {
   void startTimeout() {
     // var duration = Duration(milliseconds: milliseconds);
 
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         // print(timer.tick);
         // print(widget.isCountdown);
@@ -59,6 +60,12 @@ class _LapTimerState extends State<LapTimer> {
   void initState() {
     startTimeout();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
   }
 
   @override

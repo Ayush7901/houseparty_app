@@ -12,6 +12,7 @@ import 'package:frontend/game/points_screen.dart';
 import 'package:frontend/meet/join_screen.dart';
 import 'package:frontend/theme/theme_data.dart';
 import './game/start_screen.dart';
+import 'utils/logger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,17 +20,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final _logger = LoggingService();
+  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    _logger.info("Starting the app...");
+    _logger.info("Firebase initialized successfully.");
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Houseparty',
         theme: ThemeManager.lightTheme,
         routes: {
           '/': (context) => StreamBuilder<User?>(

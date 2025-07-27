@@ -3,6 +3,7 @@ import 'dart:math';
 // import 'package:dictionaryx/dictentry.dart';
 import 'package:dictionaryx/dictionary_msa_json_flutter.dart';
 import 'package:flutter/material.dart';
+import '../utils/logger.dart';
 import './countdown_screen.dart';
 import './inputs.dart';
 import './background.dart';
@@ -98,6 +99,7 @@ class _GameScreenState extends State<GameScreen> {
   int points = 0;
   bool isCountdown = false;
   Map<String, Input> inputList = {};
+  final _logger = LoggingService();
 
   void finishCountDown() {
     setState(() {
@@ -107,10 +109,15 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<bool> lookupWord() async {
     bool isValid = false;
+    if(text.isEmpty) {
+      _logger.info('Word is empty, skipping lookup.');
+      return isValid;
+    }
     try {
+      _logger.info('Looking up word: $text');
       isValid = await dMSAJson.hasEntry(text.toLowerCase());
     } catch (e) {
-      print('Error looking up word: $e');
+      _logger.error('Error looking up word: $text $e');
     }
     return isValid;
   }
